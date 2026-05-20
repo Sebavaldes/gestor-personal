@@ -3,6 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const Task = require("./models/Taks")
+
 const app = express();
 
 // Permite comunicación con frontend
@@ -18,6 +20,23 @@ mongoose
 // Ruta de prueba
 app.get("/", (req, res) => {
   res.send("Hola desde el backend 🚀");
+});
+
+app.post("/tasks", async(req, res) =>{
+  try{
+    const newTask = new Task({
+      title: req.body.title,
+    });
+
+    const savedTask = await newTask.save();
+
+    res.status(201).json(savedTask);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al crear la tarea",
+      error: error.message,
+    });
+  }
 });
 
 // Puerto
