@@ -39,6 +39,19 @@ app.post("/tasks", async(req, res) =>{
   }
 });
 
+app.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await Task.find();
+
+    res.status(200).json(tasks);
+  } catch(error) {
+    res.status(500).json({
+      message: "Error al obtener las tareas",
+      error: error.message,
+    });
+  }
+});
+
 // Puerto
 const PORT = process.env.PORT || 3000;
 
