@@ -66,3 +66,13 @@ button {
   text-decoration: line-through;
   color: gray;
 }
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters button {
+  background: #e5e7eb;
+}

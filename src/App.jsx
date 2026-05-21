@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const getTasks = async () => {
     const response = await fetch("http://localhost:3000/tasks");
@@ -52,6 +53,12 @@ function App() {
     getTasks();
   }, []);
 
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "completed") return task.completed;
+    if (filter === "pending") return !task.completed;
+    return true;
+  })
+
   return (
     <div className="app">
       <h1>Gestor Personal</h1>
@@ -69,8 +76,14 @@ function App() {
 
       <h2>Mis tareas</h2>
 
+      <div className="filters">
+        <button onClick={() => setFilter("all")}>Todas</button>
+        <button onClick={() => setFilter("pending")}>Pendiente</button>
+        <button onClick={() => setFilter("completed")}>Completadas</button>
+      </div>
+
       <ul className="task-list">
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <li className="task-item" key={task._id}>
             <span className={task.completed ? "completed" : ""}>
                 {task.title}
