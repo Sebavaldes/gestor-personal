@@ -39,6 +39,14 @@ function App() {
     getTasks();
   };
 
+  const deleteTask = async (id) => {
+    await fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "DELETE",
+    });
+
+    getTasks();
+  }
+
   useEffect(() => {
     getTasks();
   }, []);
@@ -72,6 +80,10 @@ function App() {
               </span>
             <button onClick={() => toggleTask(task)}> 
               {task.completed ? "Desmarcar" : "Completar"}
+            </button>
+
+            <button onClick={() => deleteTask(task._id)}>
+              Eliminar
             </button>
             </li>
         ))}

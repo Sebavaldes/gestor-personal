@@ -69,6 +69,21 @@ app.put("/tasks/:id", async (req, res) => {
   }
 });
 
+app.delete("/tasks/:id", async (req, res) => {
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      message: "Tarea eliminada correctamente",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al eliminar la tarea",
+      error: error.message,
+    });
+  }
+});
+
 // Puerto
 const PORT = process.env.PORT || 3000;
 
