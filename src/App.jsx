@@ -1,3 +1,4 @@
+import "./App.css";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="app">
       <h1>Gestor Personal</h1>
 
       <form onSubmit={createTask}>
@@ -63,28 +64,27 @@ function App() {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <button type="submit">Agregar</button>
+        <button className="add-btn" type="submit">Agregar</button>
       </form>
 
       <h2>Mis tareas</h2>
 
-      <ul>
+      <ul className="task-list">
         {tasks.map((task) => (
-          <li key={task._id}>
-            <span
-              style={{
-                textDecoration: task.completed ? "line-through" : "none",
-              }}
-              >
+          <li className="task-item" key={task._id}>
+            <span className={task.completed ? "completed" : ""}>
                 {task.title}
               </span>
-            <button onClick={() => toggleTask(task)}> 
-              {task.completed ? "Desmarcar" : "Completar"}
-            </button>
+            <div className="task-buttons">            
+              <button onClick={() => toggleTask(task)}> 
+                {task.completed ? "Desmarcar" : "Completar"}
+              </button>
 
-            <button onClick={() => deleteTask(task._id)}>
-              Eliminar
-            </button>
+              <button onClick={() => deleteTask(task._id)}>
+                Eliminar
+              </button>
+            </div>
+
             </li>
         ))}
       </ul>
