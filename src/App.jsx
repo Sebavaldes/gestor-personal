@@ -27,6 +27,18 @@ function App() {
     getTasks();
   };
 
+  const toggleTask = async (task) => {
+    await fetch(`http://localhost:3000/tasks/${task._id}` , {
+      method: "PUT",
+      headers: {
+        "Content-Type" : "application/json",
+      },
+      body: JSON.stringify({ completed: !task.completed}),
+    });
+
+    getTasks();
+  };
+
   useEffect(() => {
     getTasks();
   }, []);
@@ -50,7 +62,18 @@ function App() {
 
       <ul>
         {tasks.map((task) => (
-          <li key={task._id}>{task.title}</li>
+          <li key={task._id}>
+            <span
+              style={{
+                textDecoration: task.completed ? "line-through" : "none",
+              }}
+              >
+                {task.title}
+              </span>
+            <button onClick={() => toggleTask(task)}> 
+              {task.completed ? "Desmarcar" : "Completar"}
+            </button>
+            </li>
         ))}
       </ul>
     </div>
