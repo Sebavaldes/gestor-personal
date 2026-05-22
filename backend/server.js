@@ -26,6 +26,7 @@ app.post("/tasks", async(req, res) =>{
   try{
     const newTask = new Task({
       title: req.body.title,
+      priority: req.body.priority,
     });
 
     const savedTask = await newTask.save();

@@ -76,3 +76,10 @@ button {
 .filters button {
   background: #e5e7eb;
 }
+
+select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+

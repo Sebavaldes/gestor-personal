@@ -9,6 +9,10 @@ const taskSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    priority:{
+        type: String,
+        defaul: "normal",
+    },
     createdAt:{
         type: Date,
         default: Date.now,

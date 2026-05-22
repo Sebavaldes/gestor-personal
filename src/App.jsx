@@ -5,6 +5,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [filter, setFilter] = useState("all");
+  const [priority, setPriority] = useState("normal");
 
   const getTasks = async () => {
     const response = await fetch("http://localhost:3000/tasks");
@@ -22,10 +23,11 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ title, priority }),
     });
 
     setTitle("");
+    setPriority("normal");
     getTasks();
   };
 
@@ -70,6 +72,11 @@ function App() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+          <option value="baja">Baja</option>
+          <option value="normal">Normal</option>
+          <option value="alta">Alta</option>
+        </select>
 
         <button className="add-btn" type="submit">Agregar</button>
       </form>
@@ -85,9 +92,17 @@ function App() {
       <ul className="task-list">
         {filteredTasks.map((task) => (
           <li className="task-item" key={task._id}>
-            <span className={task.completed ? "completed" : ""}>
-                {task.title}
+            <div>
+              <span className={task.completed ? "completed" : ""}>
+                  {task.title}
               </span>
+
+              <br />
+              
+              <small>
+                Prioridad: {task.priority}
+              </small>
+            </div>
             <div className="task-buttons">            
               <button onClick={() => toggleTask(task)}> 
                 {task.completed ? "Desmarcar" : "Completar"}
@@ -98,7 +113,7 @@ function App() {
               </button>
             </div>
 
-            </li>
+          </li>
         ))}
       </ul>
     </div>
