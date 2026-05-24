@@ -34,21 +34,47 @@ Clonar repositorio:
 git clone https://github.com/Sebavaldes/gestor-personal
 ```
 
-Instalar dependencias:
+Entrar al proyecto:
+
+```bash
+cd gestor-personal
+```
+
+Instalar frontend:
 
 ```bash
 npm install
 ```
 
-Ejecutar frontend:
+Instalar backend:
 
 ```bash
-npm run dev
+cd backend
+npm install
+```
+
+Crear archivo:
+
+```txt
+backend/.env
+```
+
+Agregar:
+
+```env
+MONGO_URI=tu_uri_mongodb
+PORT=3000
 ```
 
 Ejecutar backend:
 
 ```bash
-cd backend
 node server.js
+```
+
+Volver al frontend:
+
+```bash
+cd ..
+npm run dev
 ```
