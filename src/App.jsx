@@ -8,7 +8,7 @@ function App() {
   const [priority, setPriority] = useState("normal");
 
   const getTasks = async () => {
-    const response = await fetch("http://localhost:3000/tasks");
+    const response = await fetch("https://gestor-personal-y2i4.onrender.com/tasks");
     const data = await response.json();
     setTasks(data);
   };
@@ -18,7 +18,7 @@ function App() {
 
     if (title.trim() === "") return;
 
-    await fetch("http://localhost:3000/tasks", {
+    await fetch("https://gestor-personal-y2i4.onrender.com/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@ function App() {
   };
 
   const toggleTask = async (task) => {
-    await fetch(`http://localhost:3000/tasks/${task._id}` , {
+    await fetch(`https://gestor-personal-y2i4.onrender.com/tasks/${task._id}` , {
       method: "PUT",
       headers: {
         "Content-Type" : "application/json",
@@ -44,7 +44,7 @@ function App() {
   };
 
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:3000/tasks/${id}`, {
+    await fetch(`https://gestor-personal-y2i4.onrender.com/tasks/${id}`, {
       method: "DELETE",
     });
 
