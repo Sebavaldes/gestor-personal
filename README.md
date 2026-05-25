@@ -78,3 +78,24 @@ Volver al frontend:
 cd ..
 npm run dev
 ```
+
+## Arquitectura
+
+Frontend
+
+```txt
+src/
+ ├── components
+ ├── services
+ └── App.jsx
+```
+
+Backend
+
+```txt
+backend/
+ ├── controllers
+ ├── routes
+ ├── models
+ └── server.js
+```
