@@ -3,13 +3,16 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const Task = require("./models/Taks")
+const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
 
 // Permite comunicación con frontend
+
 app.use(cors());
 app.use(express.json());
+
+app.use("/tasks", taskRoutes);
 
 // conexión MongoDB
 mongoose

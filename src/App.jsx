@@ -1,5 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import { getTasksRequest, createTaskRequest, updateTaskRequest, deleteTaskRequest } from "./services/taskService";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -8,8 +9,7 @@ function App() {
   const [priority, setPriority] = useState("normal");
 
   const getTasks = async () => {
-    const response = await fetch("https://gestor-personal-y2i4.onrender.com/tasks");
-    const data = await response.json();
+    const data = await getTasksRequest();
     setTasks(data);
   };
 
@@ -18,37 +18,26 @@ function App() {
 
     if (title.trim() === "") return;
 
-    await fetch("https://gestor-personal-y2i4.onrender.com/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, priority }),
+    await createTaskRequest({
+      title,
+      priority,
     });
 
     setTitle("");
     setPriority("normal");
-    getTasks();
+    await getTasks();
   };
 
   const toggleTask = async (task) => {
-    await fetch(`https://gestor-personal-y2i4.onrender.com/tasks/${task._id}` , {
-      method: "PUT",
-      headers: {
-        "Content-Type" : "application/json",
-      },
-      body: JSON.stringify({ completed: !task.completed}),
-    });
+    await updateTaskRequest(task._id, !task.completed);
 
     getTasks();
   };
 
   const deleteTask = async (id) => {
-    await fetch(`https://gestor-personal-y2i4.onrender.com/tasks/${id}`, {
-      method: "DELETE",
-    });
+    await deleteTaskRequest(id);
 
-    getTasks();
+     getTasks();
   }
 
   useEffect(() => {
@@ -61,6 +50,7 @@ function App() {
     return true;
   })
 
+  
   return (
     <div className="app">
       <h1>Gestor Personal</h1>
