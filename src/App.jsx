@@ -7,11 +7,24 @@ function App() {
   const [title, setTitle] = useState("");
   const [filter, setFilter] = useState("all");
   const [priority, setPriority] = useState("normal");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const getTasks = async () => {
-    const data = await getTasksRequest();
-    setTasks(data);
-  };
+    const getTasks = async () => {
+      try{
+        setLoading(true);
+
+        const data = await getTasksRequest();
+
+        setTasks(data);
+        setError("");
+      } catch {
+        setError("No pudimos cargar las tareas");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
 
   const createTask = async (e) => {
     e.preventDefault();
@@ -35,10 +48,16 @@ function App() {
   };
 
   const deleteTask = async (id) => {
+    const confirmDelete = confirm(
+      "¿Seguro que quieres eliminar esta tarea?"
+    );
+
+    if(!confirmDelete) return;
+
     await deleteTaskRequest(id);
 
-     getTasks();
-  }
+    getTasks();
+  };
 
   useEffect(() => {
     getTasks();
@@ -54,6 +73,7 @@ function App() {
   return (
     <div className="app">
       <h1>Gestor Personal</h1>
+      {error && <p>{error}</p>}
 
       <form onSubmit={createTask}>
         <input
@@ -80,31 +100,36 @@ function App() {
       </div>
 
       <ul className="task-list">
-        {filteredTasks.map((task) => (
-          <li className="task-item" key={task._id}>
-            <div>
-              <span className={task.completed ? "completed" : ""}>
+        {loading ? (
+          <p>Cargando tareas...</p>
+        ) : filteredTasks.length === 0 ? (
+          <p>No hay tareas todavía</p>
+        ) : (
+          filteredTasks.map((task) => (
+            <li className="task-item" key={task._id}>
+              <div>
+                <span className={task.completed ? "completed" : ""}>
                   {task.title}
-              </span>
+                </span>
 
-              <br />
-              
-              <small>
-                Prioridad: {task.priority}
-              </small>
-            </div>
-            <div className="task-buttons">            
-              <button onClick={() => toggleTask(task)}> 
-                {task.completed ? "Desmarcar" : "Completar"}
-              </button>
+                <br />
 
-              <button onClick={() => deleteTask(task._id)}>
-                Eliminar
-              </button>
-            </div>
+                <small>
+                  Prioridad: {task.priority}
+                </small>
+              </div>
 
-          </li>
-        ))}
+              <div className="task-buttons">
+                <button onClick={() => toggleTask(task)}>
+                  {task.completed ? "Desmarcar" : "Completar"}
+                </button>
+                <button onClick={() => deleteTask(task._id)}>
+                  Eliminar
+                </button>
+              </div>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
