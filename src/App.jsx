@@ -1,4 +1,6 @@
 import "./App.css";
+import TaskForm from "./components/TaskForm";
+import TaskList from "./components/TaskList";
 import { useEffect, useState } from "react";
 import { getTasksRequest, createTaskRequest, updateTaskRequest, deleteTaskRequest } from "./services/taskService";
 
@@ -75,21 +77,13 @@ function App() {
       <h1>Gestor Personal</h1>
       {error && <p>{error}</p>}
 
-      <form onSubmit={createTask}>
-        <input
-          type="text"
-          placeholder="Escribe una tarea"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-          <option value="baja">Baja</option>
-          <option value="normal">Normal</option>
-          <option value="alta">Alta</option>
-        </select>
-
-        <button className="add-btn" type="submit">Agregar</button>
-      </form>
+      <TaskForm
+        title={title}
+        setTitle={setTitle}
+        priority={priority}
+        setPriority={setPriority}
+        createTask={createTask}
+      />
 
       <h2>Mis tareas</h2>
 
@@ -99,38 +93,12 @@ function App() {
         <button onClick={() => setFilter("completed")}>Completadas</button>
       </div>
 
-      <ul className="task-list">
-        {loading ? (
-          <p>Cargando tareas...</p>
-        ) : filteredTasks.length === 0 ? (
-          <p>No hay tareas todavía</p>
-        ) : (
-          filteredTasks.map((task) => (
-            <li className="task-item" key={task._id}>
-              <div>
-                <span className={task.completed ? "completed" : ""}>
-                  {task.title}
-                </span>
-
-                <br />
-
-                <small>
-                  Prioridad: {task.priority}
-                </small>
-              </div>
-
-              <div className="task-buttons">
-                <button onClick={() => toggleTask(task)}>
-                  {task.completed ? "Desmarcar" : "Completar"}
-                </button>
-                <button onClick={() => deleteTask(task._id)}>
-                  Eliminar
-                </button>
-              </div>
-            </li>
-          ))
-        )}
-      </ul>
+      <TaskList
+        loading={loading}
+        filteredTasks={filteredTasks}
+        toggleTask={toggleTask}
+        deleteTask={deleteTask}
+      />
     </div>
   );
 }
