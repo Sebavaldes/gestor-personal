@@ -11,6 +11,7 @@ function App() {
   const [priority, setPriority] = useState("normal");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
     const getTasks = async () => {
       try{
@@ -70,6 +71,8 @@ function App() {
     if (filter === "pending") return !task.completed;
     return true;
   })
+  .filter((task) => task.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   
   return (
@@ -92,6 +95,15 @@ function App() {
         <button onClick={() => setFilter("pending")}>Pendiente</button>
         <button onClick={() => setFilter("completed")}>Completadas</button>
       </div>
+
+      <input className="search-input"
+        type="text"
+        placeholder="Buscar tarea..."
+        value={search}
+        onChange={(e) =>setSearch(e.target.value)}
+      />
+
+
 
       <TaskList
         loading={loading}

@@ -83,3 +83,10 @@ select {
   border-radius: 8px;
 }
 
+.search-input{
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
