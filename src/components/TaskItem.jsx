@@ -1,10 +1,28 @@
-function TaskItem({ task, toggleTask, deleteTask }) {
+import { useState } from "react";
+
+function TaskItem({ task, toggleTask, deleteTask, editTask }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [newTitle, setNewTitle] = useState(task.title);
+
+  const handleSave = async () => {
+    await editTask(task._id, newTitle);
+    setIsEditing(false);
+  };
+
   return (
     <li className="task-item">
       <div>
-        <span className={task.completed ? "completed" : ""}>
-          {task.title}
-        </span>
+        {isEditing ? (
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+          />
+        ) : (
+          <span className={task.completed ? "completed" : ""}>
+            {task.title}
+          </span>
+        )}
 
         <br />
 
@@ -12,13 +30,26 @@ function TaskItem({ task, toggleTask, deleteTask }) {
       </div>
 
       <div className="task-buttons">
-        <button onClick={() => toggleTask(task)}>
-          {task.completed ? "Desmarcar" : "Completar"}
-        </button>
+        {isEditing ? (
+          <>
+            <button onClick={handleSave}>Guardar</button>
+            <button onClick={() => setIsEditing(false)}>Cancelar</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => toggleTask(task)}>
+              {task.completed ? "Desmarcar" : "Completar"}
+            </button>
 
-        <button onClick={() => deleteTask(task._id)}>
-          Eliminar
-        </button>
+            <button onClick={() => setIsEditing(true)}>
+              Editar
+            </button>
+
+            <button onClick={() => deleteTask(task._id)}>
+              Eliminar
+            </button>
+          </>
+        )}
       </div>
     </li>
   );

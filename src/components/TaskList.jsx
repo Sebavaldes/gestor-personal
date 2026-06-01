@@ -5,6 +5,7 @@ function TaskList({
   filteredTasks,
   toggleTask,
   deleteTask,
+  editTask,
 }) {
   if (loading) {
     return <p>Cargando tareas...</p>;
@@ -22,6 +23,7 @@ function TaskList({
           task={task}
           toggleTask={toggleTask}
           deleteTask={deleteTask}
+          editTask={editTask}
         />
       ))}
     </ul>

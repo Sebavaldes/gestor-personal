@@ -50,15 +50,16 @@ const updateTask = async (req, res) => {
   try {
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
-      { completed: req.body.completed },
-      { returnDocument: "after",}
+      req.body,
+      {
+        returnDocument: "after",
+      }
     );
-
     res.status(200).json(updatedTask);
   } catch (error) {
     res.status(500).json({
-      message: "Error al actualizar la tarea",
-      error: error.message,
+      message: "Error al actualizar tarea",
+      error: error.nessage,
     });
   }
 };

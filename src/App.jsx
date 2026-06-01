@@ -45,8 +45,7 @@ function App() {
   };
 
   const toggleTask = async (task) => {
-    await updateTaskRequest(task._id, !task.completed);
-
+    await updateTaskRequest(task._id, {completed: !task.completed,});
     getTasks();
   };
 
@@ -73,6 +72,17 @@ function App() {
   })
   .filter((task) => task.title.toLowerCase().includes(search.toLowerCase())
   );
+
+  const editTask = async (id, newTitle) => {
+    if (newTitle.trim() === "") return;
+
+    await updateTaskRequest(id, {
+      title: newTitle,
+    });
+    getTasks();
+  }
+
+
 
   
   return (
@@ -110,6 +120,7 @@ function App() {
         filteredTasks={filteredTasks}
         toggleTask={toggleTask}
         deleteTask={deleteTask}
+        editTask={editTask}
       />
     </div>
   );

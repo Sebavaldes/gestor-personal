@@ -17,13 +17,13 @@ export const createTaskRequest = async (task) => {
   return response.json();
 };
 
-export const updateTaskRequest = async (id, completed) => {
+export const updateTaskRequest = async (id, taskData) => {
     const response = await fetch(`${API}/tasks/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ completed }),
+        body: JSON.stringify(taskData),
     });
 
     return response.json();
